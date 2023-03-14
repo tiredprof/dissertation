@@ -1,0 +1,148 @@
+---
+title: "Oil Analysis"
+output:
+  pdf_document: default
+  
+---
+
+```{r}
+library(readxl)
+oil13 <- read_excel("dissertation master file.xlsx", col_types = c("text", "text", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric"))
+oil14 <- read_excel("dissertation master file.xlsx", 
+    sheet = "HC2014 FAOP", col_types = c("text", 
+        "text", "numeric", "numeric", "numeric", 
+        "numeric", "numeric", "numeric", 
+        "numeric"))
+oil15 <- read_excel("dissertation master file.xlsx", 
+    sheet = "LS2015 FAOP")
+```
+
+```{r Oil Analysis, echo=FALSE}
+oil13.oilaov<-aov(Oil~Line, data=oil13)
+oil14.oilaov<-aov(Oil~Line, data=oil14)
+oil15.oilaov<-aov(Oil~Line, data=oil15)
+summary(oil13.oilaov)
+summary(oil14.oilaov)
+summary(oil15.oilaov)
+library(agricolae)
+oil13.hsd<-HSD.test(oil13.oilaov, "Line")
+plot(oil13.hsd)
+oil14.hsd<-HSD.test(oil14.oilaov, "Line")
+plot(oil14.hsd)
+oil15.hsd<-HSD.test(oil15.oilaov, "Line")
+plot(oil15.hsd)
+```
+
+```{r Oil Analysis, echo=FALSE}
+protein13.proteinaov<-aov(Protein~Line, data=oil13)
+protein14.proteinaov<-aov(Protein~Line, data=oil14)
+protein15.proteinaov<-aov(Protein~Line, data=oil15)
+summary(protein13.proteinaov)
+summary(protein14.proteinaov)
+summary(protein15.proteinaov)
+protein13.hsd<-HSD.test(protein13.proteinaov, "Line")
+plot(protein13.hsd)
+protein14.hsd<-HSD.test(protein14.proteinaov, "Line")
+plot(protein14.hsd)
+protein15.hsd<-HSD.test(protein15.proteinaov, "Line")
+plot(protein15.hsd)
+```
+
+```{r Oil Analysis, echo=FALSE}
+Palmitic13.Palmiticaov<-aov(Palmitic~Line, data=oil13)
+Palmitic14.Palmiticaov<-aov(Palmitic~Line, data=oil14)
+Palmitic15.Palmiticaov<-aov(Palmitic~Line, data=oil15)
+summary(Palmitic13.Palmiticaov)
+summary(Palmitic14.Palmiticaov)
+summary(Palmitic15.Palmiticaov)
+Palmitic13.hsd<-HSD.test(Palmitic13.Palmiticaov, "Line")
+plot(Palmitic13.hsd)
+```
+
+```{r}
+Stearic13.Stearicaov<-aov(Stearic~Line, data=oil13)
+Stearic14.Stearicaov<-aov(Stearic~Line, data=oil14)
+Stearic15.Stearicaov<-aov(Stearic~Line, data=oil15)
+summary(Stearic13.Stearicaov)
+summary(Stearic14.Stearicaov)
+summary(Stearic15.Stearicaov)
+Stearic13.hsd<-HSD.test(Stearic13.Stearicaov, "Line")
+plot(Stearic13.hsd)
+```
+
+```{r}
+Linoleic13.Linoleicaov<-aov(Linoleic~Line, data=oil13)
+Linoleic14.Linoleicaov<-aov(Linoleic~Line, data=oil14)
+Linoleic15.Linoleicaov<-aov(Linoleic~Line, data=oil15)
+summary(Linoleic13.Linoleicaov)
+summary(Linoleic14.Linoleicaov)
+summary(Linoleic15.Linoleicaov)
+```
+
+```{r}
+Linoleic13.Linoleicaov<-aov(Linoleic~Line, data=oil13)
+Linoleic14.Linoleicaov<-aov(Linoleic~Line, data=oil14)
+Linoleic15.Linoleicaov<-aov(Linoleic~Line, data=oil15)
+summary(Linoleic13.Linoleicaov)
+summary(Linoleic14.Linoleicaov)
+summary(Linoleic15.Linoleicaov)
+```
+
+```{r}
+Linolenic13.Linolenicaov<-aov(Linolenic~Line, data=oil13)
+Linolenic14.Linolenicaov<-aov(Linolenic~Line, data=oil14)
+Linolenic15.Linolenicaov<-aov(Linolenic~Line, data=oil15)
+summary(Linolenic13.Linolenicaov)
+summary(Linolenic14.Linolenicaov)
+summary(Linolenic15.Linolenicaov)
+Linolenic13.hsd<-HSD.test(Linolenic13.Linolenicaov, "Line")
+plot(Linolenic13.hsd)
+Linolenic14.hsd<-HSD.test(Linolenic14.Linolenicaov, "Line")
+plot(Linolenic14.hsd)
+Linolenic15.hsd<-HSD.test(Linolenic15.Linolenicaov, "Line")
+plot(Linolenic15.hsd)
+```
+
+```{r}
+library(ggplot2)
+library(reshape)
+oil13.po<-data.frame(oil13$Line, oil13$Oil, oil13$Protein)
+colnames(oil13.po)<-c("Line", "Oil", "Protein")
+oil13po.melt<-melt(oil13.po, id.vars='Line')
+ggplot(oil13po.melt, aes(x=Line, y=value, fill=variable)) + geom_bar(stat='identity', position='dodge')+ theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+oil14.po<-data.frame(oil14$Line, oil14$Oil, oil14$Protein)
+colnames(oil14.po)<-c("Line", "Oil", "Protein")
+oil14po.melt<-melt(oil14.po, id.vars='Line')
+ggplot(oil14po.melt, aes(x=Line, y=value, fill=variable)) + geom_bar(stat='identity', position='dodge')+ theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+oil15.po<-data.frame(oil15$Line, oil15$Oil, oil15$Protein)
+colnames(oil15.po)<-c("Line", "Oil", "Protein")
+oil15po.melt<-melt(oil15.po, id.vars='Line')
+ggplot(oil15po.melt, aes(x=Line, y=value, fill=variable)) + geom_bar(stat='identity', position='dodge')+ theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+```
+
+```{r}
+oil13.fa<-cbind(oil13[,1], oil13[,5:9])
+oil14.fa<-cbind(oil14[,1], oil14[,5:9])
+oil15.fa<-cbind(oil15[,1:6])
+oil13fa.melt<-melt(oil13.fa, id.vars='Line')
+oil14fa.melt<-melt(oil14.fa, id.vars='Line')
+oil15fa.melt<-melt(oil15.fa, id.vars='Line')
+ggplot(oil13fa.melt, aes(x=Line, y=value, fill=variable)) + geom_bar(stat='identity', position='dodge')+ theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+ggplot(oil14fa.melt, aes(x=Line, y=value, fill=variable)) + geom_bar(stat='identity', position='dodge')+ theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+ggplot(oil15fa.melt, aes(x=Line, y=value, fill=variable)) + geom_bar(stat='identity', position='dodge')+ theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+```
+
+```{r}
+oil.combined <- read_excel("dissertation master file.xlsx", sheet = "All Oil", col_types = c("text", "text", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric"))
+```
+
+```{r}
+ggplot(oil.combined,  aes(x=Season, y=Oil, color=Season)) + geom_boxplot()
+ggplot(oil.combined,  aes(x=Season, y=Protein, color=Season)) + geom_boxplot()
+ggplot(oil.combined,  aes(x=Season, y=Palmitic, color=Season)) + geom_boxplot()
+ggplot(oil.combined,  aes(x=Season, y=Stearic, color=Season)) + geom_boxplot()
+ggplot(oil.combined,  aes(x=Season, y=Oleic, color=Season)) + geom_boxplot()
+ggplot(oil.combined,  aes(x=Season, y=Linoleic, color=Season)) + geom_boxplot()
+ggplot(oil.combined,  aes(x=Season, y=Linolenic, color=Season)) + geom_boxplot()
+```
+
